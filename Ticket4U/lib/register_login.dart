@@ -129,7 +129,7 @@ class _RegisterLogin extends State<RegisterLogin> {
                 cursorColor: Colors.white,
                 decoration: InputDecoration(
                     floatingLabelBehavior: FloatingLabelBehavior.always,
-                    labelText: 'Data de nascimento*',
+                    labelText: 'Senha*',
                     labelStyle: TextStyle(color: Colors.white),
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(
@@ -159,8 +159,7 @@ class _RegisterLogin extends State<RegisterLogin> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => const ListTickets()),
+                    MaterialPageRoute(builder: (context) => ListTickets()),
                   );
                 },
               ),

@@ -1,200 +1,98 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:html';
+
 import 'package:Ticket4U/buy_ticket.dart';
 import 'package:Ticket4U/details_ticket.dart';
-import 'package:Ticket4U/login.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import './models_views/ticket_view.dart';
 
-class ListTickets extends StatefulWidget {
-  const ListTickets({super.key});
+class ListTickets extends StatelessWidget {
+  TicketView ticketView = TicketView();
 
-  @override
-  State<ListTickets> createState() => _ListTickets();
-}
-
-class _ListTickets extends State<ListTickets> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
-        children: <Widget>[
-          Container(
-            decoration: BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage("imgs/background.jpg"), fit: BoxFit.cover)),
-        child: Container(
-          margin: const EdgeInsets.all(20), //card
-          child: Column(
-            children: [
-              Card(
-                child: InkWell(
-                  onTap: (){
-                    Navigator.push(
-                      context, MaterialPageRoute(builder: (context) => const DetailsTicket() ),);
-                  },
-                  child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch, // add this
-                  children: <Widget>[
-                    ClipRRect(
-                      borderRadius: BorderRadius.all(Radius.circular(9.0)),
-                      child: Image.asset(
-                        'imgs/ticket1.jpg',
-                        // width: 300,
-                        height: 150,
-                        fit: BoxFit.fitWidth,
-                      ),
-                    ),
-                    ListTile(
-                      title: const Text("Henrique & Juliano",
-                          style: TextStyle(fontSize: 35, color: Colors.purple),
-                          textAlign: TextAlign.center),
-                      subtitle: Text(
-                        "Turnê SURREAL",
-                        style: TextStyle(color: Colors.black26),
-                        textAlign: TextAlign.center),),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                    child: Text(
-                      "A dupla que arrasta MILHÕES", 
-                      style: TextStyle(fontSize: 17),
-                      textAlign: TextAlign.center,),),
-                    ButtonBar(
-                      alignment: MainAxisAlignment.center,
-                      children: [
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.purple,
-                            minimumSize: const Size(150, 40),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12)),),
-                        onPressed: () {
-                          Navigator.push(
-                             context,
-                          MaterialPageRoute(
-                           builder: (context) => const BuyTicket()),);
+        body: Container(
+      decoration: BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage("imgs/background.jpg"), fit: BoxFit.cover)),
+      child: Container(
+        child: Observer(builder: (_) {
+          return ListView.builder(
+            padding: const EdgeInsets.only(top: 10.0),
+            itemCount: ticketView.listaTickets.length,
+            itemBuilder: (context, index) {
+              final ticket = ticketView.listaTickets[index];
+              return Observer(builder: (_) {
+                return Card(
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const DetailsTicket()),
+                      );
                     },
-                        child: const Text("Comprar")
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: <Widget>[
+                        ClipRRect(
+                          borderRadius: BorderRadius.all(Radius.circular(9.0)),
+                          child: Image.network(
+                            ticket.image.url as String,
+                            height: 150,
+                            fit: BoxFit.fitWidth,
+                          ),
+                        ),
+                        ListTile(
+                          title: Text(ticket.ticket,
+                              style:
+                                  TextStyle(fontSize: 35, color: Colors.purple),
+                              textAlign: TextAlign.center),
+                          subtitle: Text(ticket.ticket_subtitle,
+                              style: TextStyle(color: Colors.black26),
+                              textAlign: TextAlign.center),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Text(
+                            ticket.ticket_desc!,
+                            style: TextStyle(fontSize: 17),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        ButtonBar(
+                          alignment: MainAxisAlignment.center,
+                          children: [
+                            ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.purple,
+                                  minimumSize: const Size(150, 40),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12)),
+                                ),
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            BuyTicket(ticketId: ticket.id)),
+                                  );
+                                },
+                                child: const Text("Comprar")),
+                          ],
                         ),
                       ],
-                    ),  
-                  ],
-                  ),
-                ),
-              ),
-              Card(
-                child: InkWell(
-                  onTap: (){
-                    Navigator.push(
-                      context, MaterialPageRoute(builder: (context) => const DetailsTicket() ),);
-                  },
-                  child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch, // add this
-                  children: <Widget>[
-                    ClipRRect(
-                      borderRadius: BorderRadius.all(Radius.circular(9.0)),
-                      child: Image.asset(
-                        'imgs/ticket2.jpg',
-                        // width: 300,
-                        height: 150,
-                        fit: BoxFit.fitWidth,
-                      ),
                     ),
-                    ListTile(
-                      title: const Text("Harry Styles",
-                          style: TextStyle(fontSize: 35, color: Colors.purple),
-                          textAlign: TextAlign.center),
-                      subtitle: Text(
-                        "Love on Tour",
-                        style: TextStyle(color: Colors.black26),
-                        textAlign: TextAlign.center),),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                    child: Text(
-                      "Pela primeira vez no Brasil!!", 
-                      style: TextStyle(fontSize: 17),
-                      textAlign: TextAlign.center,),),
-                    ButtonBar(
-                      alignment: MainAxisAlignment.center,
-                      children: [
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.purple,
-                            minimumSize: const Size(150, 40),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12)),),
-                        onPressed: () {
-                          Navigator.push(
-                             context,
-                          MaterialPageRoute(
-                           builder: (context) => const BuyTicket()),);
-                    },
-                        child: const Text("Comprar")
-                        ),
-                      ],
-                    ),  
-                  ],
                   ),
-                ),
-              ),
-              Card(
-                child: InkWell(
-                  onTap: (){
-                    Navigator.push(
-                      context, MaterialPageRoute(builder: (context) => const DetailsTicket() ),);
-                  },
-                  child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch, // add this
-                  children: <Widget>[
-                    ClipRRect(
-                      borderRadius: BorderRadius.all(Radius.circular(9.0)),
-                      child: Image.asset(
-                        'imgs/ticket3.jpg',
-                        // width: 300,
-                        height: 150,
-                        fit: BoxFit.fitWidth,
-                      ),
-                    ),
-                    ListTile(
-                      title: const Text("Coldplay",
-                          style: TextStyle(fontSize: 35, color: Colors.purple),
-                          textAlign: TextAlign.center),
-                      subtitle: Text(
-                        "Music of the Spheres World Tour",
-                        style: TextStyle(color: Colors.black26),
-                        textAlign: TextAlign.center),),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                    child: Text(
-                      "Pela 8° em tour, dessa vez com 9 shows no Brasil!!", 
-                      style: TextStyle(fontSize: 17),
-                      textAlign: TextAlign.center,),),
-                    ButtonBar(
-                      alignment: MainAxisAlignment.center,
-                      children: [
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.purple,
-                            minimumSize: const Size(150, 40),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12)),),
-                        onPressed: () {
-                          Navigator.push(
-                             context,
-                          MaterialPageRoute(
-                           builder: (context) => const BuyTicket()),);
-                    },
-                        child: const Text("Comprar")
-                        ),
-                      ],
-                    ),  
-                  ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),) 
-      ],
+                );
+              });
+            },
+          );
+        }),
       ),
-  );}
+    ));
+  }
 }

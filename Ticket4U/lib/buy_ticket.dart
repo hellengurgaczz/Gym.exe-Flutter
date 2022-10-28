@@ -3,15 +3,21 @@ import 'package:Ticket4U/list_tickets.dart';
 import 'package:Ticket4U/login.dart';
 import 'package:flutter/material.dart';
 import 'package:typicons_flutter/typicons_flutter.dart';
+import 'models/tickets.dart';
+import 'models_views/ticket_view.dart';
 
 class BuyTicket extends StatefulWidget {
-  const BuyTicket({super.key});
-
+  BuyTicket({super.key, required this.ticketId});
+  final String ticketId;
+  //TicketView ticketView = TicketView();
   @override
-  State<BuyTicket> createState() => _BuyTicket();
+  State<BuyTicket> createState() => _BuyTicket(ticketId: ticketId);
 }
 
 class _BuyTicket extends State<BuyTicket> {
+  _BuyTicket({required this.ticketId});
+  final String ticketId;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,7 +40,7 @@ class _BuyTicket extends State<BuyTicket> {
                   color: Colors.purple,
                 ),
                 const Text(
-                  '  Comprar ingressos',
+                  ' Comprar ingressos',
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
@@ -393,8 +399,7 @@ class _DataCard extends State<DataCard> {
                   ),
                   onTap: (() => Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => const ListTickets()),
+                        MaterialPageRoute(builder: (context) => ListTickets()),
                       )),
                 ),
               ],

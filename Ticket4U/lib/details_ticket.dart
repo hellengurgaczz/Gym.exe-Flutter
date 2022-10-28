@@ -96,8 +96,7 @@ class _DetailsTicket extends State<DetailsTicket> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => const ListTickets()),
+                        MaterialPageRoute(builder: (context) => ListTickets()),
                       );
                     },
                   ),
