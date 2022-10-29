@@ -1,4 +1,3 @@
-import 'package:Ticket4U/list_tickets.dart';
 import '../models/tickets.dart';
 import 'package:mobx/mobx.dart';
 import '../repositories/ticket_repository.dart';
@@ -6,6 +5,7 @@ import '../repositories/ticket_repository.dart';
 //flutter pub run build_runner build
 part 'mixin_ticket.g.dart';
 
+// ignore: library_private_types_in_public_api
 class TicketView = _TicketView with _$AfazerStore;
 
 abstract class _TicketView {

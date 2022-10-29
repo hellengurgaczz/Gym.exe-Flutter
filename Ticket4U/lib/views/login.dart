@@ -1,20 +1,51 @@
-import 'package:Ticket4U/list_tickets.dart';
-import 'package:Ticket4U/register_login.dart';
+import 'package:Ticket4U/models/loginController.dart';
+import 'package:Ticket4U/models_views/user_view.dart';
+
+import './list_tickets.dart';
+import './register_login.dart';
 import 'package:flutter/material.dart';
 import 'package:typicons_flutter/typicons_flutter.dart';
+import '../constants/constants.dart';
 
 class Login extends StatefulWidget {
-  const Login({super.key});
+  Login({super.key});
 
   @override
-  State<Login> createState() => _LoginState();
+  State<Login> createState() => _Login();
 }
 
-class _LoginState extends State<Login> {
-  @override
+class _Login extends State<Login> {
+  UserView userView = UserView();
+  String error = "";
+
+  // Controllers de texto
+  LoginController loginController = LoginController(
+      email: TextEditingController(), senha: TextEditingController());
+
+  sign_in_verify(context) async {
+    setState(() {
+      error = "";
+    });
+
+    var response = await userView.verifyLogin(
+        loginController.email.text, loginController.senha.text);
+
+    if (response == true) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => ListTickets()),
+      );
+    } else {
+      setState(() {
+        error =
+            "Login ou senha incorretos! Verifique os campos e tente novamente";
+      });
+    }
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 0, 0, 0),
+      backgroundColor: const Color.fromARGB(255, 0, 0, 0),
       body: Column(
         children: [
           Expanded(
@@ -22,7 +53,7 @@ class _LoginState extends State<Login> {
             child: Container(
               decoration: const BoxDecoration(
                 image: DecorationImage(
-                    image: AssetImage('imgs/home_screen.png'),
+                    image: AssetImage(home_screen_background),
                     fit: BoxFit.cover,
                     alignment: Alignment.bottomCenter),
               ),
@@ -39,21 +70,21 @@ class _LoginState extends State<Login> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Entrar'.toUpperCase(),
+                        Text(text_sign_in.toUpperCase(),
                             style: const TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold)),
-                        Text('Cadastre-Se'.toUpperCase(),
+                        Text(text_register.toUpperCase(),
                             style: const TextStyle(color: Colors.white)),
                       ],
                     ),
                     onTap: (() => Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const RegisterLogin()),
+                              builder: (context) => RegisterLogin()),
                         )),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 10.0),
                     child: Row(
@@ -67,13 +98,14 @@ class _LoginState extends State<Login> {
                             color: Colors.purple,
                           ),
                         ),
-                        const Expanded(
+                        Expanded(
                           // ignore: sort_child_properties_last
                           child: TextField(
-                            style: TextStyle(color: Colors.white),
+                            controller: loginController.email,
+                            style: const TextStyle(color: Colors.white),
                             cursorColor: Colors.white,
-                            decoration: InputDecoration(
-                              labelText: 'E-mail',
+                            decoration: const InputDecoration(
+                              labelText: text_email,
                               labelStyle: TextStyle(color: Colors.white),
                               focusedBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(
@@ -92,18 +124,19 @@ class _LoginState extends State<Login> {
                     // ignore: prefer_const_literals_to_create_immutables
                     children: [
                       const Padding(
-                        padding: EdgeInsets.only(right: 15),
+                        padding: EdgeInsets.only(right: 15, bottom: 30),
                         child: Icon(
                           Icons.lock,
                           color: Colors.purple,
                         ),
                       ),
-                      const Expanded(
+                      Expanded(
                         child: TextField(
-                          style: TextStyle(color: Colors.white),
+                          controller: loginController.senha,
+                          style: const TextStyle(color: Colors.white),
                           cursorColor: Colors.white,
-                          decoration: InputDecoration(
-                            labelText: 'Senha',
+                          decoration: const InputDecoration(
+                            labelText: text_password,
                             labelStyle: TextStyle(color: Colors.white),
                             focusedBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(
@@ -116,13 +149,20 @@ class _LoginState extends State<Login> {
                       )
                     ],
                   ),
+                  error.length > 1
+                      ? Text(
+                          error,
+                          style:
+                              const TextStyle(color: Colors.red, fontSize: 10),
+                        )
+                      : Container(),
                   const Spacer(),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 30),
                     child: Row(
                       children: [
                         Container(
-                          padding: EdgeInsets.all(15),
+                          padding: const EdgeInsets.all(15),
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             border: Border.all(
@@ -137,7 +177,7 @@ class _LoginState extends State<Login> {
                         ),
                         const SizedBox(width: 15),
                         Container(
-                          padding: EdgeInsets.all(15),
+                          padding: const EdgeInsets.all(15),
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             border: Border.all(
@@ -151,22 +191,18 @@ class _LoginState extends State<Login> {
                         ),
                         const Spacer(),
                         InkWell(
+                          onTap: (() => sign_in_verify(context)),
                           child: Container(
                             padding: const EdgeInsets.all(15),
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               shape: BoxShape.circle,
                               color: Colors.purple,
                             ),
-                            child: Icon(
+                            child: const Icon(
                               Icons.arrow_forward,
                               color: Colors.black,
                             ),
                           ),
-                          onTap: (() => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ListTickets()),
-                              )),
                         ),
                       ],
                     ),

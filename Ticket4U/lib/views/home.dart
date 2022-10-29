@@ -18,7 +18,7 @@ class _MyHomePageState extends State<MyHomePage> {
           title: Center(
             child: Text(widget.title),
           ),
-          backgroundColor: Color.fromARGB(255, 0, 0, 0),
+          backgroundColor: const Color.fromARGB(255, 0, 0, 0),
         ),
         body: ListTickets());
   }

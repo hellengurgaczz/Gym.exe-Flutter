@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import './home_screen.dart';
+import './views/home_screen.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'constants/constants.dart';
 
@@ -16,11 +16,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Ticket4U',
+      title: tittle_app,
       theme: ThemeData(
         primaryColor: Colors.black,
       ),
-      home: Splash(),
+      home: const Splash(),
     );
   }
 }

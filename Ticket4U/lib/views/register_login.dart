@@ -1,22 +1,46 @@
-import 'package:Ticket4U/list_tickets.dart';
-import 'package:Ticket4U/login.dart';
+import 'package:Ticket4U/models/registerUserController.dart';
+import 'package:Ticket4U/models_views/user_view.dart';
+
+import '../models/user.dart';
+import './list_tickets.dart';
+import './login.dart';
 import 'package:flutter/material.dart';
+import '../constants/constants.dart';
 
-class RegisterLogin extends StatefulWidget {
-  const RegisterLogin({super.key});
+class RegisterLogin extends StatelessWidget {
+  RegisterLogin({super.key});
+  UserView userView = UserView();
 
-  @override
-  State<RegisterLogin> createState() => _RegisterLogin();
-}
+  // Controllers de texto
+  RegisterUserController registerUserController = RegisterUserController(
+      nome: TextEditingController(),
+      email: TextEditingController(),
+      cpf: TextEditingController(),
+      senha: TextEditingController());
 
-class _RegisterLogin extends State<RegisterLogin> {
+  registerLogin(context) async {
+    var response = await userView.registerUser(User(
+        nome: registerUserController.nome.text,
+        email: registerUserController.email.text,
+        cpf: int.parse(registerUserController.cpf.text),
+        senha: registerUserController.senha.text));
+    print(response);
+    if (response == true) {
+      print('deu');
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => ListTickets()),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
           image: DecorationImage(
-              image: AssetImage("imgs/background.jpg"), fit: BoxFit.cover)),
+              image: AssetImage(background), fit: BoxFit.cover)),
       child: Container(
         margin: const EdgeInsets.all(20),
         child: Column(
@@ -31,7 +55,7 @@ class _RegisterLogin extends State<RegisterLogin> {
                   color: Colors.purple,
                 ),
                 const Text(
-                  '  Cadastre-se',
+                  " ${text_register}",
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
@@ -44,14 +68,15 @@ class _RegisterLogin extends State<RegisterLogin> {
             // ignore: prefer_const_constructors
             Expanded(
                 // ignore: sort_child_properties_last
-                child: const Padding(
+                child: Padding(
               padding: EdgeInsets.only(top: 25),
               child: TextField(
-                style: TextStyle(color: Colors.white),
+                controller: registerUserController.nome,
+                style: const TextStyle(color: Colors.white),
                 cursorColor: Colors.white,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     floatingLabelBehavior: FloatingLabelBehavior.always,
-                    labelText: 'Nome completo*',
+                    labelText: text_name,
                     labelStyle: TextStyle(color: Colors.white),
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(
@@ -68,16 +93,17 @@ class _RegisterLogin extends State<RegisterLogin> {
                 keyboardType: TextInputType.name,
               ),
             )),
-            const Expanded(
+            Expanded(
                 // ignore: sort_child_properties_last
                 child: Padding(
-              padding: EdgeInsets.only(top: 25),
+              padding: const EdgeInsets.only(top: 25),
               child: TextField(
-                style: TextStyle(color: Colors.white),
+                controller: registerUserController.email,
+                style: const TextStyle(color: Colors.white),
                 cursorColor: Colors.white,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     floatingLabelBehavior: FloatingLabelBehavior.always,
-                    labelText: 'E-mail*',
+                    labelText: "$text_email*",
                     labelStyle: TextStyle(color: Colors.white),
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(
@@ -94,16 +120,17 @@ class _RegisterLogin extends State<RegisterLogin> {
                 keyboardType: TextInputType.emailAddress,
               ),
             )),
-            const Expanded(
+            Expanded(
                 // ignore: sort_child_properties_last
                 child: Padding(
               padding: EdgeInsets.only(top: 25),
               child: TextField(
+                controller: registerUserController.cpf,
                 style: TextStyle(color: Colors.white),
                 cursorColor: Colors.white,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     floatingLabelBehavior: FloatingLabelBehavior.always,
-                    labelText: 'CPF*',
+                    labelText: text_cpf,
                     labelStyle: TextStyle(color: Colors.white),
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(
@@ -120,16 +147,17 @@ class _RegisterLogin extends State<RegisterLogin> {
                 keyboardType: TextInputType.number,
               ),
             )),
-            const Expanded(
+            Expanded(
                 // ignore: sort_child_properties_last
                 child: Padding(
-              padding: EdgeInsets.only(top: 25),
+              padding: const EdgeInsets.only(top: 25),
               child: TextField(
-                style: TextStyle(color: Colors.white),
+                controller: registerUserController.senha,
+                style: const TextStyle(color: Colors.white),
                 cursorColor: Colors.white,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     floatingLabelBehavior: FloatingLabelBehavior.always,
-                    labelText: 'Senha*',
+                    labelText: "$text_password*",
                     labelStyle: TextStyle(color: Colors.white),
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(
@@ -149,7 +177,6 @@ class _RegisterLogin extends State<RegisterLogin> {
             Container(
               margin: const EdgeInsets.all(15),
               child: ElevatedButton(
-                child: const Text('Cadastrar'),
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.purple,
                     minimumSize: const Size(150, 40),
@@ -157,11 +184,9 @@ class _RegisterLogin extends State<RegisterLogin> {
                       borderRadius: BorderRadius.circular(12),
                     )),
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ListTickets()),
-                  );
+                  registerLogin(context);
                 },
+                child: const Text(text_to_register),
               ),
             ),
             Expanded(
@@ -179,7 +204,7 @@ class _RegisterLogin extends State<RegisterLogin> {
                             color: Colors.purple,
                           ),
                           const Text(
-                            '  Já tem login? Clique aqui!',
+                            " $text_has_login",
                             textAlign: TextAlign.center,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
@@ -191,8 +216,7 @@ class _RegisterLogin extends State<RegisterLogin> {
                       ),
                       onTap: (() => Navigator.push(
                             context,
-                            MaterialPageRoute(
-                                builder: (context) => const Login()),
+                            MaterialPageRoute(builder: (context) => Login()),
                           )),
                     )))
           ],

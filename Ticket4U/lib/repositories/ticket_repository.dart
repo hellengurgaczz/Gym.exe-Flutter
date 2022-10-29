@@ -12,7 +12,7 @@ class TicketRepository {
       final objects = apiResponse.results as List<ParseObject>;
 
       for (ParseObject object in objects) {
-        Ticket _ticket = Ticket(
+        Ticket ticket = Ticket(
             id: object.objectId.toString(),
             ticket: object.get<String>('ticket')!,
             date: object.get<String>('data')!,
@@ -22,7 +22,7 @@ class TicketRepository {
             ticket_desc: object.get<String>('ticket_desc')!,
             image: object.get<ParseWebFile>('image')!);
 
-        lista.add(_ticket);
+        lista.add(ticket);
       }
 
       return lista;
@@ -34,6 +34,7 @@ class TicketRepository {
   Future<Ticket> findTicketById(String ticketId) async {
     var ticket = ParseObject('Tickets')..objectId = ticketId;
 
+    // ignore: no_leading_underscores_for_local_identifiers
     Ticket _ticket = Ticket(
         id: ticket.objectId.toString(),
         ticket: ticket.get<String>('ticket')!,
