@@ -8,7 +8,7 @@ class Ticket {
   int valor;
   String ticket_subtitle;
   String? ticket_desc = '';
-  ParseWebFile image;
+  ParseFile image;
 
   Ticket(
       {required this.id,

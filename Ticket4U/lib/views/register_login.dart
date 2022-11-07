@@ -26,7 +26,6 @@ class RegisterLogin extends StatelessWidget {
         senha: registerUserController.senha.text));
     print(response);
     if (response == true) {
-      print('deu');
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => ListTickets()),
@@ -171,7 +170,7 @@ class RegisterLogin extends StatelessWidget {
                         width: 2,
                       ),
                     )),
-                keyboardType: TextInputType.datetime,
+                keyboardType: TextInputType.text,
               ),
             )),
             Container(

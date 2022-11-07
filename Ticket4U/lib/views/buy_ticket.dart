@@ -369,7 +369,7 @@ class DataCard extends StatelessWidget {
                         width: 2,
                       ),
                     )),
-                keyboardType: TextInputType.number,
+                keyboardType: TextInputType.text,
               ),
             )),
             Expanded(

@@ -4,6 +4,7 @@ import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'constants/constants.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await Parse().initialize(keyApplicationId, keyParseServerUrl,
       clientKey: keyClientKey, autoSendSessionId: true);
 

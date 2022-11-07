@@ -20,7 +20,7 @@ class TicketRepository {
             valor: object.get<int>('valor')!,
             ticket_subtitle: object.get<String>('ticket_subtitle')!,
             ticket_desc: object.get<String>('ticket_desc')!,
-            image: object.get<ParseWebFile>('image')!);
+            image: object.get<ParseFile>('image')!);
 
         lista.add(ticket);
       }
@@ -43,7 +43,7 @@ class TicketRepository {
         valor: ticket.get<int>('valor')!,
         ticket_subtitle: ticket.get<String>('ticket_subtitle')!,
         ticket_desc: ticket.get<String>('ticket_desc')!,
-        image: ticket.get<ParseWebFile>('image')!);
+        image: ticket.get<ParseFile>('image')!);
 
     return _ticket;
   }
